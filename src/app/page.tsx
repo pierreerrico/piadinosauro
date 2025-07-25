@@ -21,7 +21,7 @@ export default function Page() {
       scrollToHomepage();
     }
 
-    if (y < 750 && !triggeredUp && heroContentRef.current) {
+    if (y < 650 && !triggeredUp && heroContentRef.current) {
       setIsAutoScrolling(true);
       heroContentRef.current.scrollIntoView({ behavior: "smooth" });
       setTriggeredDown(false);

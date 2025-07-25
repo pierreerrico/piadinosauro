@@ -4,7 +4,7 @@
     flex-direction: column;
     position: relative;
     width: 100vw;
-    height: 92vh;
+    height: 85vh;
     background-image: url('./images/piadina-hero.jpeg');
     background-size: cover;
     background-position: center;
@@ -37,7 +37,7 @@
   }
 
   .homepage-content {
-    padding: 95px 5vw 5vw 5vw;
+    padding: 110px 5vw 5vw 5vw;
     text-align: justify;
     z-index: 2;
   }
@@ -58,7 +58,7 @@
 .scroll-button-wrapper {
   position: absolute;
   left: 50%;
-  bottom: 10px;
+  bottom: 65px;
 }
 
 .pulse-button {
