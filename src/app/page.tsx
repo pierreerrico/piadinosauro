@@ -5,18 +5,19 @@ import { useState, useEffect, useCallback, useRef, RefObject } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
-export function scrollToElement(ref: RefObject<HTMLElement>) {
-  ref.current?.scrollIntoView({ behavior: 'smooth' });
-}
-
 export default function Page() {
   const homepageContentRef = useRef<HTMLDivElement>(null);
   const heroContentRef = useRef<HTMLDivElement>(null);
 
   let lastTouchY: number | null = null;
+
+  function scrollToElement(ref: RefObject<HTMLElement>) {
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  }
+
   function onScroll(event: TouchEvent | WheelEvent) {
     const homepageTop = homepageContentRef.current ? homepageContentRef.current.getBoundingClientRect().top : 0;
-    const heroTop =  heroContentRef.current ? heroContentRef.current.getBoundingClientRect().top : 0;
+    const heroTop = heroContentRef.current ? heroContentRef.current.getBoundingClientRect().top : 0;
 
     if (event instanceof WheelEvent) {
       // Scroll del mouse
