@@ -9,7 +9,7 @@ export default function Page() {
   const homepageContentRef = useRef<HTMLDivElement>(null);
   const heroContentRef = useRef<HTMLDivElement>(null);
 
-  /*let lastTouchY: number | null = null;
+  let lastTouchY: number | null = null;
 
   function scrollToElement(ref: RefObject<HTMLElement>) {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
@@ -63,9 +63,9 @@ export default function Page() {
       window.removeEventListener("touchstart", onScroll);
       window.removeEventListener("touchend", onScroll);
     };
-  }, [onScroll]);*/
+  }, [onScroll]);
 
-  const [isAutoScrolling, setIsAutoScrolling] = useState(false);
+  /*const [isAutoScrolling, setIsAutoScrolling] = useState(false);
   const lastScrollYRef = useRef(0);
 
   const scrollToElement = (ref: RefObject<HTMLElement>) => {
@@ -98,7 +98,7 @@ export default function Page() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isAutoScrolling]);
+  }, [isAutoScrolling]);*/
 
   return (
     <section className="homepage-section">
