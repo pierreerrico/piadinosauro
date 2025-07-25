@@ -1,47 +1,68 @@
 "use client";
 
 import './page.css';
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, RefObject } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
+
+export function scrollToElement(ref: RefObject<HTMLElement>) {
+  ref.current?.scrollIntoView({ behavior: 'smooth' });
+}
 
 export default function Page() {
   const homepageContentRef = useRef<HTMLDivElement>(null);
   const heroContentRef = useRef<HTMLDivElement>(null);
-  const [triggeredDown, setTriggeredDown] = useState(false);
-  const [triggeredUp, setTriggeredUp] = useState(true);
-  const [isAutoScrolling, setIsAutoScrolling] = useState(false);
 
-  const onScroll = useCallback(() => {
-    const y = window.scrollY;
+  let lastTouchY: number | null = null;
+  function onScroll(event: TouchEvent | WheelEvent) {
+    const homepageTop = homepageContentRef.current ? homepageContentRef.current.getBoundingClientRect().top : 0;
+    const heroTop =  heroContentRef.current ? heroContentRef.current.getBoundingClientRect().top : 0;
 
-    if (isAutoScrolling) return; // blocca ogni trigger mentre stai già scrollando
+    if (event instanceof WheelEvent) {
+      // Scroll del mouse
+      if (event.deltaY > 0) {
+        /*console.log("Wheel scroll down → Fai qualcosa");
+        console.log("home: " + homepageTop + "\nhero: " + heroTop)*/
+        if (heroTop < 0 && homepageTop > 0) scrollToElement(homepageContentRef as RefObject<HTMLElement>);
+      } else {
+        /*console.log("Wheel scroll up → Fai qualcos'altro");
+        console.log("home: " + homepageTop + "\nhero: " + heroTop)*/
+        if (homepageTop > 0 && heroTop < 0) scrollToElement(heroContentRef as RefObject<HTMLElement>);
+      }
 
-    if (y > 30 && !triggeredDown && homepageContentRef.current) {
-      scrollToHomepage();
+    } else if (event instanceof TouchEvent) {
+      const touch = event.touches[0] || event.changedTouches[0];
+
+      if (event.type === 'touchstart') {
+        lastTouchY = touch.clientY;
+      } else if (event.type === 'touchend' && lastTouchY !== null) {
+        const deltaY = lastTouchY - touch.clientY;
+
+        if (deltaY > 10) {
+          /*console.log("Touch swipe up → Fai qualcosa");
+          console.log("home: " + homepageTop + "\nhero: " + heroTop)*/
+          if (heroTop < 0 && homepageTop > 0) scrollToElement(homepageContentRef as RefObject<HTMLElement>);
+        } else {
+          /*console.log("Touch swipe down → Fai qualcos'altro");
+          console.log("home: " + homepageTop + "\nhero: " + heroTop)*/
+          if (homepageTop > 0 && heroTop < 0) scrollToElement(heroContentRef as RefObject<HTMLElement>);
+        }
+
+        lastTouchY = null; // reset
+      }
     }
-
-    if (y < 650 && !triggeredUp && heroContentRef.current) {
-      setIsAutoScrolling(true);
-      heroContentRef.current.scrollIntoView({ behavior: "smooth" });
-      setTriggeredDown(false);
-      setTriggeredUp(true);
-      setTimeout(() => setIsAutoScrolling(false), 500);
-    }
-  }, [triggeredDown, triggeredUp, isAutoScrolling]);
+  }
 
   useEffect(() => {
-    window.addEventListener("scroll", onScroll, { passive: false });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener('wheel', onScroll, { passive: true });
+    window.addEventListener('touchstart', onScroll, { passive: true });
+    window.addEventListener('touchend', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("wheel", onScroll);
+      window.removeEventListener("touchstart", onScroll);
+      window.removeEventListener("touchend", onScroll);
+    };
   }, [onScroll]);
-
-  const scrollToHomepage = () => {
-    setIsAutoScrolling(true);
-    homepageContentRef.current?.scrollIntoView({ behavior: 'smooth' });
-    setTriggeredDown(true);
-    setTriggeredUp(false);
-    setTimeout(() => setIsAutoScrolling(false), 500);
-  };
 
   return (
     <section className="homepage-section">
@@ -59,7 +80,7 @@ export default function Page() {
       </div>
 
       <div className="scroll-button-wrapper">
-        <button onClick={scrollToHomepage} className={`pulse-button ${triggeredDown ? 'opacity-0 scale-100' : 'opacity-100 scale-100'}`}>
+        <button onClick={() => { }} className={`pulse-button`}>
           <FontAwesomeIcon icon={faChevronUp} />
         </button>
       </div>
