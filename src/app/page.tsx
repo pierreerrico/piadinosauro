@@ -85,11 +85,11 @@ export default function Page() {
 
       if (goingDown && heroTop < 0 && homepageTop > 0) {
         setIsAutoScrolling(true);
-        scrollToElement(homepageContentRef);
+        scrollToElement(homepageContentRef as RefObject<HTMLElement>);
         setTimeout(() => setIsAutoScrolling(false), 500);
       } else if (goingUp && homepageTop > 0 && heroTop < 0) {
         setIsAutoScrolling(true);
-        scrollToElement(heroContentRef);
+        scrollToElement(heroContentRef as RefObject<HTMLElement>);
         setTimeout(() => setIsAutoScrolling(false), 500);
       }
 
