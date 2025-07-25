@@ -1,98 +1,68 @@
-"use client";
+'use client';
 
 import './page.css';
-import { useState, useEffect, useCallback, useRef, RefObject } from 'react';
+import { useRef, useEffect, useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Mousewheel, Keyboard, Pagination } from 'swiper/modules';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 export default function Page() {
-  const homepageContentRef = useRef<HTMLDivElement>(null);
-  const heroContentRef = useRef<HTMLDivElement>(null);
+  const [swiper, setSwiper] = useState<any>(null);
 
-  let lastTouchY: number | null = null;
+  const handleNext = () => {
+    if (swiper) swiper.slideNext();
+  };
 
-  function scrollToElement(ref: RefObject<HTMLElement>) {
-    ref.current?.scrollIntoView({ behavior: 'smooth' });
-  }
-
-  function onScroll(event: TouchEvent | WheelEvent) {
-    const homepageTop = homepageContentRef.current ? homepageContentRef.current.getBoundingClientRect().top : 0;
-    const heroTop = heroContentRef.current ? heroContentRef.current.getBoundingClientRect().top : 0;
-
-    if (event instanceof WheelEvent) {
-      // Scroll del mouse
-      if (event.deltaY > 0) {
-        /*console.log("Wheel scroll down → Fai qualcosa");
-        console.log("home: " + homepageTop + "\nhero: " + heroTop)*/
-        if (heroTop < 0 && homepageTop > 0) scrollToElement(homepageContentRef as RefObject<HTMLElement>);
-      } else {
-        /*console.log("Wheel scroll up → Fai qualcos'altro");
-        console.log("home: " + homepageTop + "\nhero: " + heroTop)*/
-        if (homepageTop > 0 && heroTop < 0) scrollToElement(heroContentRef as RefObject<HTMLElement>);
-      }
-
-    } else if (event instanceof TouchEvent) {
-      const touch = event.touches[0] || event.changedTouches[0];
-
-      if (event.type === 'touchstart') {
-        lastTouchY = touch.clientY;
-      } else if (event.type === 'touchend' && lastTouchY !== null) {
-        const deltaY = lastTouchY - touch.clientY;
-
-        if (deltaY > 10) {
-          /*console.log("Touch swipe up → Fai qualcosa");
-          console.log("home: " + homepageTop + "\nhero: " + heroTop)*/
-          if (heroTop < 0 && homepageTop > 0) scrollToElement(homepageContentRef as RefObject<HTMLElement>);
-        } else {
-          /*console.log("Touch swipe down → Fai qualcos'altro");
-          console.log("home: " + homepageTop + "\nhero: " + heroTop)*/
-          if (homepageTop > 0 && heroTop < 0) scrollToElement(heroContentRef as RefObject<HTMLElement>);
-        }
-
-        lastTouchY = null; // reset
-      }
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener('wheel', onScroll, { passive: true });
-    window.addEventListener('touchstart', onScroll, { passive: true });
-    window.addEventListener('touchend', onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("wheel", onScroll);
-      window.removeEventListener("touchstart", onScroll);
-      window.removeEventListener("touchend", onScroll);
-    };
-  }, [onScroll]);
+  const handlePrev = () => {
+    if (swiper) swiper.slidePrev();
+  };
 
   return (
-    <section className="homepage-section">
+    <main className="homepage-swiper">
+      <Swiper
+        direction="vertical"
+        slidesPerView={1}
+        keyboard
+        pagination={{ clickable: true }}
+        mousewheel={{ releaseOnEdges: true }}
+        nested={true}
+        modules={[Mousewheel, Keyboard, Pagination]}
+        className="swiper-container"
+        onSwiper={setSwiper}
+      >
+        {/* Slide 1: Hero */}
+        <SwiperSlide>
+          <div id="hero-content" className="hero-content">
+            <h1 className="hero-title fade-in-text">
+              La piadina<br />dei nostri<br />antenati.
+            </h1>
+            <p className="hero-subtitle fade-in-text">
+              <i>
+                Fatta a mano come una volta.<br />
+                E tanto altro ancora.
+              </i>
+            </p>
+            <div className="scroll-button-wrapper">
+              <button className="pulse-button" onClick={handleNext}>
+                <FontAwesomeIcon icon={faChevronDown} />
+              </button>
+            </div>
+          </div>
+        </SwiperSlide>
 
-      <div ref={heroContentRef} id="hero-content" className="hero-content">
-        <h1 className="hero-title fade-in-text">
-          La piadina<br />dei nostri<br />antenati.
-        </h1>
-        <p className="hero-subtitle fade-in-text">
-          <i>
-            Fatta a mano come una volta.<br />
-            E tanto altro ancora.
-          </i>
-        </p>
-      </div>
-
-      <div className="scroll-button-wrapper">
-        <button onClick={() => { }} className={`pulse-button`}>
-          <FontAwesomeIcon icon={faChevronUp} />
-        </button>
-      </div>
-
-      <div ref={homepageContentRef} id="homepage-content" className="homepage-content">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc erat eros, efficitur ut purus nec, laoreet suscipit turpis. Fusce dignissim dictum metus ac blandit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce pellentesque malesuada pulvinar. Cras pellentesque pharetra ornare. Nam neque leo, auctor eu gravida eu, aliquet at tortor. Cras porta ipsum ultricies egestas convallis. Integer orci arcu, iaculis id cursus sed, placerat vehicula ligula.
-        <br />
-        Aliquam eget orci diam. Quisque eu lorem nec arcu tincidunt lacinia eget non dolor. In in laoreet dolor. Maecenas maximus ante eu dolor faucibus, vel dignissim magna blandit. Duis iaculis pretium lectus vitae molestie. Donec euismod sollicitudin suscipit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae ipsum ac purus dictum molestie ac vel elit. Maecenas at sodales lorem. Quisque aliquam finibus tortor pellentesque blandit. Donec vulputate ligula a sagittis porttitor. Integer dignissim ligula ut interdum dictum. Sed ultricies risus a diam feugiat facilisis. Aliquam non augue elementum elit egestas efficitur quis id neque.
-        <br />
-        Vestibulum nec felis sed turpis facilisis ultrices ut non est. Proin lacinia interdum tellus mollis congue. Suspendisse pretium sed est quis blandit. Nullam dapibus molestie quam sed pulvinar. Suspendisse a ligula magna. Pellentesque venenatis enim ac dolor dapibus semper. Vivamus justo mi, euismod ut mi id, euismod placerat nulla. Cras vestibulum orci ut libero iaculis, euismod mattis nulla pulvinar. Quisque pretium dapibus sagittis. Nulla vel cursus orci, dignissim euismod nisl. Nullam suscipit commodo blandit. Proin imperdiet ipsum a orci eleifend, sed molestie erat pulvinar. Vestibulum in lacus nec orci malesuada volutpat sed in sapien. Donec maximus libero et ipsum tempus, id blandit lectus convallis.
-      </div>
-    </section>
+        {/* Slide 2: Scrollable contenuto */}
+        <SwiperSlide>
+          <div className="homepage-content">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ultricies vulputate massa, in tempor nisl egestas at. Duis accumsan dui in augue faucibus malesuada. Nulla non erat sit amet ex iaculis tincidunt. Nulla feugiat lectus massa, sed egestas odio placerat a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur eu ante quis lacus fermentum lacinia. Morbi eu orci venenatis, finibus lectus vitae, vehicula nibh. Cras hendrerit porta interdum. Pellentesque scelerisque consectetur urna, at porttitor ante scelerisque vel. Duis nunc nisl, cursus vel augue non, semper scelerisque eros. Phasellus vestibulum a nulla vel lacinia. Sed tristique at dolor vitae vehicula. Mauris rutrum tellus quis viverra pretium.
+            Quisque feugiat nisi eget blandit molestie. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris ullamcorper est scelerisque mattis tempor. Nulla placerat, tellus et dictum viverra, neque diam tincidunt velit, a pellentesque massa mauris vel est. In pharetra leo nec dignissim ornare. Suspendisse nisl arcu, pharetra in dui vel, tempor fermentum diam. Pellentesque leo lectus, mollis non interdum eu, facilisis sed mi. Integer eu nisl quis nibh auctor porta. Curabitur ac vulputate magna. Vestibulum egestas finibus sapien sed dignissim. Duis fermentum nisl odio, sed porta purus egestas vel. Cras interdum feugiat tellus lobortis hendrerit. Fusce porttitor, lorem et vehicula iaculis, odio ipsum elementum erat, in scelerisque turpis augue eu neque.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ultricies vulputate massa, in tempor nisl egestas at. Duis accumsan dui in augue faucibus malesuada. Nulla non erat sit amet ex iaculis tincidunt. Nulla feugiat lectus massa, sed egestas odio placerat a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur eu ante quis lacus fermentum lacinia. Morbi eu orci venenatis, finibus lectus vitae, vehicula nibh. Cras hendrerit porta interdum. Pellentesque scelerisque consectetur urna, at porttitor ante scelerisque vel. Duis nunc nisl, cursus vel augue non, semper scelerisque eros. Phasellus vestibulum a nulla vel lacinia. Sed tristique at dolor vitae vehicula. Mauris rutrum tellus quis viverra pretium.
+            Quisque feugiat nisi eget blandit molestie. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris ullamcorper est scelerisque mattis tempor. Nulla placerat, tellus et dictum viverra, neque diam tincidunt velit, a pellentesque massa mauris vel est. In pharetra leo nec dignissim ornare. Suspendisse nisl arcu, pharetra in dui vel, tempor fermentum diam. Pellentesque leo lectus, mollis non interdum eu, facilisis sed mi. Integer eu nisl quis nibh auctor porta. Curabitur ac vulputate magna. Vestibulum egestas finibus sapien sed dignissim. Duis fermentum nisl odio, sed porta purus egestas vel. Cras interdum feugiat tellus lobortis hendrerit. Fusce porttitor, lorem et vehicula iaculis, odio ipsum elementum erat, in scelerisque turpis augue eu neque.
+          </div>
+        </SwiperSlide>
+      </Swiper>
+    </main>
   );
 }

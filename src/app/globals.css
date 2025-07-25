@@ -5,6 +5,7 @@
   --background: #f0f0f0;
   --foreground: #000000;
   --main-color: #19472c;    /* Colore tema chiaro */
+  --secondary-color: #f39200;
 }
 
 @media (prefers-color-scheme: dark) {

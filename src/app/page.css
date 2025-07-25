@@ -4,7 +4,7 @@
     flex-direction: column;
     position: relative;
     width: 100vw;
-    height: 85vh;
+    height: 100vh;
     background-image: url('./images/piadina-hero.jpeg');
     background-size: cover;
     background-position: center;
@@ -14,6 +14,19 @@
     text-align: center;
     color: white;
     z-index: 2;
+  }
+  
+  .swiper-container {
+    height: 100vh;
+  }
+
+  .swiper-slide {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    touch-action: pan-y;
   }
 
   .hero-content::before {
@@ -42,6 +55,7 @@
     z-index: 2;
   }
 }
+
 .fade-in-text {
   opacity: 0;
   transform: translateY(20px);
@@ -58,12 +72,12 @@
 .scroll-button-wrapper {
   position: absolute;
   left: 50%;
-  bottom: 65px;
+  bottom: 25%;
 }
 
 .pulse-button {
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   background-color: #f39200;
   color: white;
@@ -75,14 +89,18 @@
   animation: pulse 1.5s ease-in-out infinite;
   box-shadow: 0 0 0 rgba(30, 144, 255, 0.7);
   transition: opacity 0.5s ease, scale 0.5s ease, transform 0.3s ease;
-  font-size: 1.5rem; /* dimensione dell'icona */
+  font-size: 1.5rem;
+  /* dimensione dell'icona */
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateX(-50%) scale(1);
     box-shadow: 0 0 0 0 rgba(243, 146, 0, 0.7);
   }
+
   50% {
     transform: translateX(-50%) scale(1.1);
     box-shadow: 0 0 0 10px rgba(30, 144, 255, 0);
