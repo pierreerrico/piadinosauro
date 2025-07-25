@@ -13,6 +13,7 @@
   height: 64px;
   position: relative;
   z-index: 999;
+  transition: ease .25s;
 }
 
 /* Logo */
@@ -82,11 +83,25 @@
   }
 
   .navbar-outer{
-    width: 96vw;
-    position: fixed;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 2vw;
+  }
+
+  .navbar-absolute {
+    width: 100vw;
+    border-radius: 0;
+    position: absolute;
+    top: 0;
+    margin: 0;
+    padding: 40px 30px 40px 30px;
+    box-shadow: none !important;
+  }
+
+  .navbar-fixed {
+    position: fixed;
+    width: 96vw;
+    top: 2vw;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.09);
   }
 
   .navbar-outer::before{
@@ -94,11 +109,16 @@
     background: url('./icons/logo_mini.svg') no-repeat center/contain;
     display: inline-block;
     margin-right: 0.5em;
-    width: 96px; 
-    height: 96px;
-    vertical-align: middle;
+    width: 96px;
+      height: 96px;
+      vertical-align: middle;
+    }
+    
+    .navbar-link:hover,
+    .navbar-link.active {
+      transform: scale(1.2);
+    }
   }
-}
 
 .navbar-link {
   color: #1f1f1f;
@@ -109,7 +129,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
   font-size: 1rem;
   position: relative;
 }
