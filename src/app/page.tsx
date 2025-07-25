@@ -9,7 +9,7 @@ export default function Page() {
   const homepageContentRef = useRef<HTMLDivElement>(null);
   const heroContentRef = useRef<HTMLDivElement>(null);
 
-  let lastTouchY: number | null = null;
+  /*let lastTouchY: number | null = null;
 
   function scrollToElement(ref: RefObject<HTMLElement>) {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
@@ -22,12 +22,12 @@ export default function Page() {
     if (event instanceof WheelEvent) {
       // Scroll del mouse
       if (event.deltaY > 0) {
-        /*console.log("Wheel scroll down → Fai qualcosa");
-        console.log("home: " + homepageTop + "\nhero: " + heroTop)*/
+        console.log("Wheel scroll down → Fai qualcosa");
+        console.log("home: " + homepageTop + "\nhero: " + heroTop)
         if (heroTop < 0 && homepageTop > 0) scrollToElement(homepageContentRef as RefObject<HTMLElement>);
       } else {
-        /*console.log("Wheel scroll up → Fai qualcos'altro");
-        console.log("home: " + homepageTop + "\nhero: " + heroTop)*/
+        console.log("Wheel scroll up → Fai qualcos'altro");
+        console.log("home: " + homepageTop + "\nhero: " + heroTop)
         if (homepageTop > 0 && heroTop < 0) scrollToElement(heroContentRef as RefObject<HTMLElement>);
       }
 
@@ -40,12 +40,12 @@ export default function Page() {
         const deltaY = lastTouchY - touch.clientY;
 
         if (deltaY > 10) {
-          /*console.log("Touch swipe up → Fai qualcosa");
-          console.log("home: " + homepageTop + "\nhero: " + heroTop)*/
+          console.log("Touch swipe up → Fai qualcosa");
+          console.log("home: " + homepageTop + "\nhero: " + heroTop)
           if (heroTop < 0 && homepageTop > 0) scrollToElement(homepageContentRef as RefObject<HTMLElement>);
         } else {
-          /*console.log("Touch swipe down → Fai qualcos'altro");
-          console.log("home: " + homepageTop + "\nhero: " + heroTop)*/
+          console.log("Touch swipe down → Fai qualcos'altro");
+          console.log("home: " + homepageTop + "\nhero: " + heroTop)
           if (homepageTop > 0 && heroTop < 0) scrollToElement(heroContentRef as RefObject<HTMLElement>);
         }
 
@@ -63,7 +63,42 @@ export default function Page() {
       window.removeEventListener("touchstart", onScroll);
       window.removeEventListener("touchend", onScroll);
     };
-  }, [onScroll]);
+  }, [onScroll]);*/
+
+  const [isAutoScrolling, setIsAutoScrolling] = useState(false);
+  const lastScrollYRef = useRef(0);
+
+  const scrollToElement = (ref: RefObject<HTMLElement>) => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isAutoScrolling) return;
+
+      const currentScrollY = window.scrollY;
+      const homepageTop = homepageContentRef.current?.getBoundingClientRect().top ?? 0;
+      const heroTop = heroContentRef.current?.getBoundingClientRect().top ?? 0;
+
+      const goingDown = currentScrollY > lastScrollYRef.current;
+      const goingUp = currentScrollY < lastScrollYRef.current;
+
+      if (goingDown && heroTop < 0 && homepageTop > 0) {
+        setIsAutoScrolling(true);
+        scrollToElement(homepageContentRef);
+        setTimeout(() => setIsAutoScrolling(false), 500);
+      } else if (goingUp && homepageTop > 0 && heroTop < 0) {
+        setIsAutoScrolling(true);
+        scrollToElement(heroContentRef);
+        setTimeout(() => setIsAutoScrolling(false), 500);
+      }
+
+      lastScrollYRef.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isAutoScrolling]);
 
   return (
     <section className="homepage-section">
