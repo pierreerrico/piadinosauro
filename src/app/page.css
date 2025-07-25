@@ -1,0 +1,9 @@
+.intro-wrapper{
+    background: url('./icons/background-piadina.jpg') no-repeat center;
+    width: 100%;
+    min-height: 450px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 0;
+}
