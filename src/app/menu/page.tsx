@@ -6,8 +6,19 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import './page.css'; // Assicurati che questo file esista
+import { useLayoutEffect } from 'react';
 
 export default function MenuPage() {
+  useLayoutEffect(() => {
+    // Eseguito *prima* del paint
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      // Cleanup al dismount
+      document.body.style.overflow = '';
+    };
+  }, []);
+
   const slideCount = 6;
 
   return (

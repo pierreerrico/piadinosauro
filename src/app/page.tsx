@@ -3,7 +3,7 @@
 import './page.css';
 import { useRef, useEffect, useState, useLayoutEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Mousewheel, Keyboard, Pagination } from 'swiper/modules';
+import { Mousewheel, Keyboard, Pagination, Navigation } from 'swiper/modules';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import 'swiper/css';
@@ -16,7 +16,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Page() {
   const heroRef = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
+  /*useLayoutEffect(() => {
     if (!heroRef.current) return;
 
     gsap.fromTo(
@@ -28,7 +28,7 @@ export default function Page() {
       },
       {
         scale: 0.3,
-        x: -400,
+        x: -100,
         opacity: 0.3,
         scrollTrigger: {
           trigger: heroRef.current,
@@ -40,9 +40,25 @@ export default function Page() {
         ease: 'power2.out',
       }
     ); 
-  }, []);
+  }, []);*/
 
     return (
+      <main>
+      <Swiper
+        modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+        spaceBetween={50}
+        slidesPerView={1}
+        navigation
+        pagination={{
+          clickable: true,
+          renderBullet: (index, className) =>
+            `<span class="${className}">${index + 1}</span>`, 
+        }}
+        mousewheel
+        keyboard
+        loop={true}
+        className="menu-swiper"
+      >
       <div>
         <div id="hero-content" className="hero-content" ref={heroRef}>
           <h1 className="hero-title fade-in-text">
@@ -67,5 +83,7 @@ export default function Page() {
           Quisque feugiat nisi eget blandit molestie. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris ullamcorper est scelerisque mattis tempor. Nulla placerat, tellus et dictum viverra, neque diam tincidunt velit, a pellentesque massa mauris vel est. In pharetra leo nec dignissim ornare. Suspendisse nisl arcu, pharetra in dui vel, tempor fermentum diam. Pellentesque leo lectus, mollis non interdum eu, facilisis sed mi. Integer eu nisl quis nibh auctor porta. Curabitur ac vulputate magna. Vestibulum egestas finibus sapien sed dignissim. Duis fermentum nisl odio, sed porta purus egestas vel. Cras interdum feugiat tellus lobortis hendrerit. Fusce porttitor, lorem et vehicula iaculis, odio ipsum elementum erat, in scelerisque turpis augue eu neque.
         </div>
       </div>
+      </Swiper>
+      </main>
     );
   }
