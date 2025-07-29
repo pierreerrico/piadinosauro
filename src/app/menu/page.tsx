@@ -7,8 +7,11 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import './page.css'; // Assicurati che questo file esista
 import { useLayoutEffect } from 'react';
+import { useScroll } from '../scrollContext';
 
 export default function MenuPage() {
+  const { isScrolled, setIsScrolled } = useScroll();
+
   useLayoutEffect(() => {
     // Eseguito *prima* del paint
     document.body.style.overflow = 'hidden';
@@ -37,6 +40,10 @@ export default function MenuPage() {
         keyboard
         loop={true}
         className="menu-swiper"
+        onSlideChange={(swiper) => { 
+          console.log('Slide changed to:', swiper.activeIndex);
+          setIsScrolled(false);
+        }}
       >
         {Array.from({ length: slideCount }, (_, i) => (
           <SwiperSlide key={i}>

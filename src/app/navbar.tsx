@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import "./navbar.css";
 import { faHome, faUtensils, faInfoCircle, faUser, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useScroll } from './scrollContext';
 
 const navItems = [
   { label: "Home", path: "/", icon: faHome },
@@ -15,23 +16,10 @@ const navItems = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
-
-  const onScroll = useCallback(() => {
-    const isScrolled = window.scrollY > 0 || window.pageYOffset > 0;
-    setScrolled(isScrolled);
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener("scroll", onScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, [onScroll]);
+  const { isScrolled, setIsScrolled } = useScroll();
 
   return (
-    <nav className={`navbar-outer ${scrolled ? 'navbar-fixed' : 'navbar-absolute'}`}>
+    <nav className={`navbar-outer ${isScrolled ? 'navbar-fixed' : 'navbar-absolute'}`}>
       <div className="navbar-links">
         {navItems.map((item) => (
           <Link

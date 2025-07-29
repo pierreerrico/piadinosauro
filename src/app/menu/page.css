@@ -1,7 +1,7 @@
 .menu-wrapper {
   width: 100vw;
-  height: 70vh;
-  margin-top: 18vw;
+  height: fit-content;
+  margin-top: calc(60px + 5vw);
 }
 
 .menu-swiper {
@@ -15,29 +15,38 @@
   align-items: center;
   height: 100%;
   background: #f0f0f0; /* colore di sfondo neutro */
+  padding: 30px 0 50px 0;
 }
 
 .menu-image {
-  max-width: 88%;
-  max-height: 88%;
+  max-width: 90vw;
+  max-height: calc(100vh - 300px);
   object-fit: contain;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  width: auto;
+  display: block;
   border-radius: 8px;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
 }
 
-.swiper-button-next,
-.swiper-button-prev {
+.menu-swiper .swiper-button-next,
+.menu-swiper .swiper-button-prev {
+  display: block;
   color: var(--secondary-color);
-  padding: 0 9vw 0 9vw;
+  padding: 0 7vw 0 7vw;
   font-weight: bold;
   transform: scale(0.6);
 }
 
-.swiper-pagination-bullets{
+.menu-swiper .swiper-pagination {
+    display: block;
+}
+
+.menu-swiper .swiper-pagination-bullets{
   bottom: 0;
 }
 
-.swiper-pagination-bullet {
+.menu-swiper .swiper-pagination-bullet {
   background: transparent !important;
   color: rgba(0, 0, 0, 0.5) !important;
   font-weight: bold !important;
@@ -53,7 +62,7 @@
   transition: 0.2s !important;
 }
 
-.swiper-pagination-bullet-active {
+.menu-swiper .swiper-pagination-bullet-active {
   background: var(--secondary-color) !important;
   border: 1px solid var(--secondary-color) !important;
   transform: scale(1.2) !important;

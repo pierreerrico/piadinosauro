@@ -20,6 +20,10 @@
     height: 100vh;
   }
 
+  .swiper-pagination {
+    display: none;
+  }
+
   .swiper-slide {
     height: 100vh;
     display: flex;
@@ -27,6 +31,11 @@
     justify-content: center;
     overflow: auto;
     touch-action: pan-y;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none;
   }
 
   .hero-content::before {
@@ -50,8 +59,8 @@
   }
 
   .homepage-content {
-    height: 200vh;
-    padding: 110px 5vw 5vw 5vw;
+    height: 100vh;
+    padding: 100px 5vw 5vw 5vw;
     text-align: justify;
     z-index: 2;
   }
