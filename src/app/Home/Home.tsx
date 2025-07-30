@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, forwardRef } from 'react';
+import { useRef, useEffect, forwardRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
 import { Mousewheel, Keyboard, Pagination, Navigation } from 'swiper/modules';
@@ -22,7 +22,6 @@ const Home = forwardRef<HTMLElement, {}>((props, ref) => {
                 direction="vertical"
                 spaceBetween={0}
                 slidesPerView={1}
-                pagination={{ clickable: true }}
                 mousewheel
                 keyboard
                 loop={false}

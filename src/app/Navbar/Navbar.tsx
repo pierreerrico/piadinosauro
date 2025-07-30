@@ -16,7 +16,7 @@ export default function Navbar({ swiperRef }: { swiperRef: React.RefObject<any> 
   const slideNames = useAppContext().slideNames;
 
   const navRef = useRef<HTMLElement[]>([]);
-  const [indicatorPosition, setIndicatorPosition] = useState(145.375);
+  const [indicatorPosition, setIndicatorPosition] = useState(138.5);
 
   const navItems = [
     { label: "Home", id: slideNames[0], icon: faHome },
