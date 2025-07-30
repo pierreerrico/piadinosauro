@@ -16,7 +16,7 @@ export default function Navbar({ swiperRef }: { swiperRef: React.RefObject<any> 
   const slideNames = useAppContext().slideNames;
 
   const navRef = useRef<HTMLElement[]>([]);
-  const [indicatorPosition, setIndicatorPosition] = useState(31);
+  const [indicatorPosition, setIndicatorPosition] = useState(133);
 
   const navItems = [
     { label: "Home", id: slideNames[0], icon: faHome },
@@ -31,35 +31,36 @@ export default function Navbar({ swiperRef }: { swiperRef: React.RefObject<any> 
       swiperRef.current?.slideTo(index);
       setCurrentSlide(slideId);
       const indicator = navRef.current[index];
-      const position = indicator.offsetLeft + indicator.offsetWidth / 2;
-      setIndicatorPosition(position);
+      let absolutePosition = indicator.offsetLeft + indicator.offsetWidth / 2;
+      let relativePosition = indicator.getBoundingClientRect().left + indicator.getBoundingClientRect().width / 2;
+      const navbar = document.querySelector(".navbar-outer") as HTMLElement | null;
+      if (navbar) {
+        navbar.style.setProperty('--cutout-x', `${relativePosition}px`);
+      }
+      setIndicatorPosition(absolutePosition);
     }
   };
 
   return (
-    <nav className="navbar-outer navbar-absolute">
-      <div className="navbar-links-labels-wrapper">
-        <div className="navbar-links">
-          {navItems.map(({ id, label, icon }) => (
-            <button
-              key={id}
-              data-id={id}
-              className={`navbar-link ${currentSlide === id ? " active" : ""
-                }`}
-              onClick={() => handleNavClick(id)}
-              ref={(el) => {
-                const index = navItems.findIndex((item) => item.id === id);
-                if (el) navRef.current[index] = el;
-              }}
-              type="button"
-            >
-              <FontAwesomeIcon icon={icon} className="navbar-link-icon" />
-            </button>
-          ))}
-        </div>
-        <span className="navbar-indicator" style={{ left: indicatorPosition }}>
-          {currentSlide}
-        </span>
+    <nav className="navbar-outer">
+      <div className="navbar-links">
+        {navItems.map(({ id, label, icon }) => (
+          <button
+            key={id}
+            data-id={id}
+            className={`navbar-link ${currentSlide === id ? " active" : ""
+              }`}
+            onClick={() => handleNavClick(id)}
+            ref={(el) => {
+              const index = navItems.findIndex((item) => item.id === id);
+              if (el) navRef.current[index] = el;
+            }}
+            type="button"
+          >
+            <FontAwesomeIcon icon={icon} className="navbar-link-icon" />
+          </button>
+        ))}
+        <div className="navbar-indicator" style={{ left: indicatorPosition }} />
       </div>
 
 
