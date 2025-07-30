@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Navbar from './navbar';
-import { ScrollProvider } from './scrollContext';
+import { AppProvider } from './AppContext';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -28,10 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en" data-scroll-behavior="smooth">
       <body>
-        <ScrollProvider>
-          <Navbar />
+        <AppProvider>
           {children}
-        </ScrollProvider>
+        </AppProvider>
       </body>
     </html>
   );

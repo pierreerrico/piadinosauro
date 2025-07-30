@@ -40,10 +40,8 @@
 
 .menu-swiper .swiper-pagination {
     display: block;
-}
-
-.menu-swiper .swiper-pagination-bullets{
-  bottom: 0;
+    bottom: 5px;
+    position: absolute;
 }
 
 .menu-swiper .swiper-pagination-bullet {

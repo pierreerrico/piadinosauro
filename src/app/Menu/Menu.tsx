@@ -1,27 +1,14 @@
 'use client';
 
+import { forwardRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import './page.css'; // Assicurati che questo file esista
-import { useLayoutEffect } from 'react';
-import { useScroll } from '../scrollContext';
+import './Menu.css';
 
-export default function MenuPage() {
-  const { isScrolled, setIsScrolled } = useScroll();
-
-  useLayoutEffect(() => {
-    // Eseguito *prima* del paint
-    document.body.style.overflow = 'hidden';
-
-    return () => {
-      // Cleanup al dismount
-      document.body.style.overflow = '';
-    };
-  }, []);
-
+const Menu = forwardRef<HTMLElement, {}>((props, ref) => {
   const slideCount = 6;
 
   return (
@@ -40,10 +27,6 @@ export default function MenuPage() {
         keyboard
         loop={true}
         className="menu-swiper"
-        onSlideChange={(swiper) => { 
-          console.log('Slide changed to:', swiper.activeIndex);
-          setIsScrolled(false);
-        }}
       >
         {Array.from({ length: slideCount }, (_, i) => (
           <SwiperSlide key={i}>
@@ -59,4 +42,9 @@ export default function MenuPage() {
       </Swiper>
     </main>
   );
-}
+});
+
+Menu.displayName = 'Menu';
+
+export default Menu;
+
