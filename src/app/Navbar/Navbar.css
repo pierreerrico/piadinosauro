@@ -99,6 +99,7 @@
 
 .navbar-link.active {
   color: var(--main-color);
+  transform: traslateY(10px);
 }
 
 
