@@ -16,7 +16,7 @@ export default function Navbar({ swiperRef }: { swiperRef: React.RefObject<any> 
   const slideNames = useAppContext().slideNames;
 
   const navRef = useRef<HTMLElement[]>([]);
-  const [indicatorPosition, setIndicatorPosition] = useState(15.5);
+  const [indicatorPosition, setIndicatorPosition] = useState(145.375);
 
   const navItems = [
     { label: "Home", id: slideNames[0], icon: faHome },
@@ -31,13 +31,8 @@ export default function Navbar({ swiperRef }: { swiperRef: React.RefObject<any> 
       swiperRef.current?.slideTo(index);
       setCurrentSlide(slideId);
       const indicator = navRef.current[index];
-      let absolutePosition = indicator.offsetLeft + indicator.offsetWidth / 2;
-      let relativePosition = indicator.getBoundingClientRect().left + indicator.getBoundingClientRect().width / 2;
-      const navbar = document.querySelector(".navbar-outer") as HTMLElement | null;
-      if (navbar) {
-        navbar.style.setProperty('--cutout-x', `${relativePosition}px`);
-      }
-      setIndicatorPosition(absolutePosition);
+      let position = indicator.getBoundingClientRect().left + indicator.getBoundingClientRect().width / 2;
+      setIndicatorPosition(position);
     }
   };
 
@@ -58,11 +53,11 @@ export default function Navbar({ swiperRef }: { swiperRef: React.RefObject<any> 
             type="button"
           >
             <FontAwesomeIcon icon={icon} className="navbar-link-icon" />
+            <div className="navbar-label">{label}</div>
           </button>
         ))}
-        <div className="navbar-indicator" style={{ left: indicatorPosition }} />
       </div>
-
+      <div className="navbar-indicator" style={{ left: indicatorPosition }} />
 
       <div className="navbar-logo">
         <div className="navbar-logo-desktop">

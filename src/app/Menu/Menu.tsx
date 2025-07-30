@@ -12,12 +12,11 @@ const Menu = forwardRef<HTMLElement, {}>((props, ref) => {
   const slideCount = 6;
 
   return (
-    <main className="menu-wrapper">
+    <main className='menu-wrapper'>
       <Swiper
         modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-        spaceBetween={50}
+        spaceBetween={10}
         slidesPerView={1}
-        navigation
         pagination={{
           clickable: true,
           renderBullet: (index, className) =>
@@ -26,7 +25,6 @@ const Menu = forwardRef<HTMLElement, {}>((props, ref) => {
         mousewheel
         keyboard
         loop={true}
-        className="menu-swiper"
       >
         {Array.from({ length: slideCount }, (_, i) => (
           <SwiperSlide key={i}>
@@ -40,6 +38,7 @@ const Menu = forwardRef<HTMLElement, {}>((props, ref) => {
           </SwiperSlide>
         ))}
       </Swiper>
+      
     </main>
   );
 });

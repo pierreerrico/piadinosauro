@@ -9,6 +9,7 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { useAppContext } from '../AppContext';
+import './Home.css';
 
 const Home = forwardRef<HTMLElement, {}>((props, ref) => {
     const swiperRef = useRef<SwiperType | null>(null);

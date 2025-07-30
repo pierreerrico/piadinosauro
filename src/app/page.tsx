@@ -1,6 +1,5 @@
 'use client';
 
-import './page.css';
 import { useRef, useEffect, useState, useLayoutEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
@@ -34,7 +33,6 @@ export default function Page() {
         modules={[Navigation, Pagination, Mousewheel, Keyboard]}
         direction="horizontal"
         slidesPerView={1}
-        pagination={{ clickable: true }}
         allowTouchMove={false}
         className="swiper-container-1"
         onSwiper={(swiper) => (swiperRef.current = swiper)}
